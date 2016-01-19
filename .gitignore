@@ -1,2 +1,8 @@
 # FinalBuilder log files
 *.fbl8
+
+# FinalBuilder project info files
+*.fbpinf
+
+# FinalBuilder breakpoint files
+*.fbpbrk
