@@ -1,0 +1,487 @@
+﻿project
+begin
+  projectid = {27B4151A-491E-429B-A4BF-EFE24233CE5E}
+  target
+  begin
+    name = Default
+    targetid = {B2DBA84E-F658-4853-9513-DD5064D5EFA6}
+    rootaction
+    begin
+      action.comment
+      begin
+        actiontextcolor = 255
+        description = "Fill in the parameters in the Run Target Action"
+        id = {648146AD-FF21-41A8-8499-E8B3CDA430A0}
+      end
+      action.target.execute
+      begin
+        actionlistid = {41DC3E39-26C0-4B08-BEAF-065B30CA83EB}
+        failifactionlistempty = false
+        id = {4BB87067-0362-49EE-B889-22D24BE783F1}
+        resetdependencychain = false
+        target.argvalues
+        begin
+          target.argvalue
+          begin
+            value = "My product"
+            variablename = ContentDescription
+          end
+          target.argvalue
+          begin
+            value = http://www.mywebsite.com
+            variablename = ContentUrl
+          end
+          target.argvalue
+          begin
+            value = false
+            variablename = DoubleSign
+          end
+          target.argvalue
+          begin
+            value = %SHA1TimeStampServers%
+            variablename = SHA1Servers
+          end
+          target.argvalue
+          begin
+            value = %SHA2TimeStampServers%
+            variablename = SHA2Servers
+          end
+          target.argvalue
+          begin
+            value = 2
+            variablename = TimeStampRetries
+          end
+        end
+      end
+    end
+  end
+  target
+  begin
+    name = CodeSigning
+    targetid = {41DC3E39-26C0-4B08-BEAF-065B30CA83EB}
+    target.arg
+    begin
+      displayorder = 0
+      name = CertificateFile
+    end
+    target.arg
+    begin
+      displayorder = 0
+      name = CertificatePassword
+    end
+    target.arg
+    begin
+      displayorder = 0
+      name = ContentDescription
+    end
+    target.arg
+    begin
+      displayorder = 0
+      name = ContentUrl
+    end
+    target.arg
+    begin
+      defaultvalue = false
+      displayorder = 0
+      name = DoubleSign
+      paramtype = paBoolean
+    end
+    target.arg
+    begin
+      displayorder = 0
+      name = FileToSign
+    end
+    target.arg
+    begin
+      displayorder = 0
+      name = SHA1Servers
+    end
+    target.arg
+    begin
+      displayorder = 0
+      name = SHA2Servers
+    end
+    target.arg
+    begin
+      defaultvalue = 2
+      displayorder = 0
+      name = TimeStampRetries
+      paramtype = paInteger
+    end
+    rootaction
+    begin
+      action.group
+      begin
+        id = {F7D27CAB-F454-40F9-A23F-7376B6A41B7C}
+        variable
+        begin
+          defaultvalue = 0
+          name = SignatureIndex
+          variablescope = vtLocal
+          variabletype = btInteger
+        end
+        action.comment
+        begin
+          actiontextcolor = 8421376
+          description = "Sign with SHA1 if we are double signing."
+          id = {21899FDC-819C-4079-A1C2-AE61A22C77F9}
+        end
+        action.ifthen
+        begin
+          expandactionlogtitle = false
+          id = {18C10854-177E-4A47-86C6-114F0C22BBB2}
+          lhsstoragestring = "%DoubleSign%" +
+                             ""
+          operatorsstoragestring = "\=" +
+                                   ""
+          resultinlogtitle = true
+          rhsstoragestring = "true" +
+                             ""
+          shortcircuitevaluation = true
+          termjoiner = jwOr
+          action.signtool.sign
+          begin
+            actiontypeid = {B89C6983-0697-40BB-BD5A-E74525AFFA5B}
+            customactionname = "Signtool Sign Files"
+            description = "Signtool Sign Files - SHA1"
+            enabletimeout = false
+            id = {3CDBE04B-95D2-4245-9DEA-AB7A61371EDF}
+            impersonateusenetcredonly = false
+            impersonateuser = false
+            terminateontimeout = true
+            timeoutlength = 2
+            as.isverbose = True
+            as.isdescription = True
+            as.description = %ContentDescription%
+            as.isurldescription = True
+            as.urldescription = %ContentUrl%
+            as.istimestampservice = False
+            as.isautoselect = False
+            as.iscomputerstore = False
+            as.isenhancedkeyusage = False
+            as.certificate = %CertificateFile%
+            as.token = xxKMu8RyGgJWer7ihDVcOteKEor5
+            as.selecteditems = %FileToSign%
+            as.usefilelist = True
+            as.usefileset = False
+            as.generatepagehash = False
+            as.hashalgorithm = "SHA1" +
+                               ""
+            as.isrfc3161timestampservice = False
+            as.appendsignature = False
+          end
+        end
+        action.comment
+        begin
+          actiontextcolor = 8421376
+          description = "Always sign with SHA256"
+          id = {A1CAFF91-FCBB-40C2-BA11-656524B7DAA9}
+        end
+        action.signtool.sign
+        begin
+          actiontypeid = {B89C6983-0697-40BB-BD5A-E74525AFFA5B}
+          customactionname = "Signtool Sign Files"
+          description = "Signtool Sign Files - SHA256"
+          enabletimeout = false
+          id = {A139802F-41B9-4F78-A83C-0CB45E8F9958}
+          impersonateusenetcredonly = false
+          impersonateuser = false
+          terminateontimeout = true
+          timeoutlength = 2
+          as.isverbose = True
+          as.isdescription = True
+          as.description = %ContentDescription%
+          as.isurldescription = True
+          as.urldescription = %ContentUrl%
+          as.istimestampservice = False
+          as.isautoselect = False
+          as.iscomputerstore = False
+          as.isenhancedkeyusage = False
+          as.certificate = %CertificateFile%
+          as.token = xxKMu8RyGgJWer7ihDVcOteKEor5
+          as.selecteditems = %FileToSign%
+          as.usefilelist = True
+          as.usefileset = False
+          as.generatepagehash = False
+          as.hashalgorithm = "SHA256" +
+                             ""
+          as.isrfc3161timestampservice = False
+          as.appendsignature = True
+        end
+        action.ifthen
+        begin
+          expandactionlogtitle = false
+          id = {4641D771-717E-4318-B5D5-A5D9B18B8C16}
+          lhsstoragestring = "%DoubleSign%" +
+                             ""
+          operatorsstoragestring = "\=" +
+                                   ""
+          resultinlogtitle = true
+          rhsstoragestring = "true" +
+                             ""
+          shortcircuitevaluation = true
+          termjoiner = jwOr
+          action.group
+          begin
+            actioncomment = "Using the group for local variables."
+            description = "TimeStamping - SHA1"
+            id = {F63E8983-E77E-4D56-8B31-86FE26804844}
+            maxretryattempts = 3
+            retrypauseinterval = 200
+            variable
+            begin
+              defaultvalue = false
+              name = L_LoopFailed
+              variablescope = vtLocal
+              variabletype = btBoolean
+            end
+            variable
+            begin
+              name = TimeStampServer
+              variablescope = vtLocal
+              variabletype = btString
+            end
+            action.list.iterator
+            begin
+              failifnoiterations = false
+              fbvariable = TimeStampServer
+              id = {BABC5055-BB1F-4952-A7E2-F10FFED62BFA}
+              listofitems = "%SHA1Servers%" +
+                            ""
+              listseparator = lsCharacter
+              separatorchar = ,
+              skipblanklines = true
+              action.signtool.timestamp
+              begin
+                actiontypeid = {F0DD1ECE-A455-4A8B-988A-9E61B823E5EF}
+                customactionname = "Signtool Timestamp Files"
+                description = "Signtool Timestamp Files - SHA1"
+                enabletimeout = false
+                id = {32E05D2A-4130-48CE-9323-B138F6897F23}
+                ignorefailure = true
+                impersonateusenetcredonly = false
+                impersonateuser = false
+                maxretryattempts = 3
+                retrypauseinterval = 3000
+                terminateontimeout = true
+                timeoutlength = 2
+                as.selecteditems = %FileToSign%
+                as.timestampurl = %TimeStampServer%
+                as.isverbose = True
+                as.usefilelist = True
+                as.usefileset = False
+                as.userfc3161 = False
+                as.signatureindex = 0
+              end
+              action.if.prevfailed
+              begin
+                id = {D7CB331F-7DE2-41B1-9EEE-8463338FF51C}
+                action.variable.set
+                begin
+                  applytoexisting = false
+                  doexpandexpression = true
+                  forcetype = ftBoolean
+                  id = {4460E428-18B7-4C9F-ACA8-B8EBB481DCA2}
+                  modifier = smNone
+                  newvalue = true
+                  variablename = L_LoopFailed
+                end
+              end
+              action.else
+              begin
+                id = {6176EBE2-048A-418F-A535-1BFDF8CF1D23}
+                action.variable.set
+                begin
+                  applytoexisting = false
+                  doexpandexpression = true
+                  forcetype = ftBoolean
+                  id = {519E6A1E-2CBE-424F-8EDB-1807429DD485}
+                  modifier = smNone
+                  newvalue = false
+                  variablename = L_LoopFailed
+                end
+                action.comment
+                begin
+                  actiontextcolor = 8421376
+                  description = "Incerment Signature Index for second timestamp call."
+                  id = {9C41D8FB-1971-4AE6-9CC9-3D3AB90EFC85}
+                end
+                action.variable.set
+                begin
+                  applytoexisting = true
+                  doexpandexpression = true
+                  forcetype = ftInteger
+                  id = {2D536625-DEBD-4A78-A438-8C569C51076B}
+                  modifier = smIncrement
+                  variablename = SignatureIndex
+                end
+                action.loop.exit
+                begin
+                  id = {C81267CF-B031-4687-8F0A-71C5D36BFEF8}
+                end
+              end
+            end
+            action.ifthen
+            begin
+              expandactionlogtitle = false
+              id = {20F93839-D2DF-4FE1-AB91-5C100C571B31}
+              lhsstoragestring = "%L_LoopFailed%" +
+                                 ""
+              operatorsstoragestring = "\=" +
+                                       ""
+              resultinlogtitle = true
+              rhsstoragestring = "true" +
+                                 ""
+              shortcircuitevaluation = true
+              termjoiner = jwOr
+              action.comment
+              begin
+                actiontextcolor = 8421376
+                description = "Ok, we tried several times and failed."
+                id = {A1589CA1-3535-4209-A384-C9B0EF1FA50D}
+              end
+              action.raise
+              begin
+                exceptionmessage = "Signtool timestamp failed."
+                id = {AFC859CE-455D-412D-9EB4-58FA71F95A5D}
+              end
+            end
+          end
+        end
+        action.group
+        begin
+          description = "TimeStamping - SHA256"
+          id = {75468581-AB5D-4955-B09D-EAAC49488A8E}
+          maxretryattempts = 3
+          retrypauseinterval = 200
+          variable
+          begin
+            defaultvalue = false
+            name = L_LoopFailed
+            variablescope = vtLocal
+            variabletype = btBoolean
+          end
+          variable
+          begin
+            name = TimeStampServer
+            variablescope = vtLocal
+            variabletype = btString
+          end
+          action.list.iterator
+          begin
+            failifnoiterations = false
+            fbvariable = TimeStampServer
+            id = {216310AB-FE93-462E-842C-262D4525CA40}
+            listofitems = "%SHA2Servers%" +
+                          ""
+            listseparator = lsCharacter
+            separatorchar = ,
+            skipblanklines = true
+            action.signtool.timestamp
+            begin
+              actiontypeid = {F0DD1ECE-A455-4A8B-988A-9E61B823E5EF}
+              customactionname = "Signtool Timestamp Files"
+              description = "Signtool Timestamp Files - SHA256"
+              enabletimeout = false
+              id = {E8BDF6CA-E6C0-4769-8B8F-813E273614C8}
+              ignorefailure = true
+              impersonateusenetcredonly = false
+              impersonateuser = false
+              maxretryattempts = 3
+              retrypauseinterval = 3000
+              terminateontimeout = true
+              timeoutlength = 2
+              as.selecteditems = %FileToSign%
+              as.timestampurl = %TimeStampServer%
+              as.isverbose = True
+              as.usefilelist = True
+              as.usefileset = False
+              as.userfc3161 = True
+              as.digestalgorithm = SHA256
+              as.signatureindex = 0
+              action.script
+              begin
+                name = BeforeAction
+                script >
+                beginscript
+                  Action.PropertyStore.SignatureIndex = FBVariables.SignatureIndex;
+                endscript
+                scriptlanguage = JavaScript
+              end
+            end
+            action.comment
+            begin
+              actiontextcolor = 8421376
+              description = "Note we use a BeforeAction script to set the SignatureIndex property"
+              id = {EF3CDD54-40E4-42EA-AEA9-EC354C409AC3}
+            end
+            action.if.prevfailed
+            begin
+              id = {8F1877CA-F634-4346-BA19-ACA09A1C266E}
+              action.variable.set
+              begin
+                applytoexisting = false
+                doexpandexpression = true
+                forcetype = ftBoolean
+                id = {7CF5B248-66AA-4C4E-A367-0C3ED5CE0F9A}
+                modifier = smNone
+                newvalue = true
+                variablename = L_LoopFailed
+              end
+            end
+            action.else
+            begin
+              id = {CBBF4306-32B9-4117-8A6F-9D8B8912D6E1}
+              action.variable.set
+              begin
+                applytoexisting = false
+                doexpandexpression = true
+                forcetype = ftBoolean
+                id = {95DDB2A2-F548-4CF3-A460-4884A6F072F8}
+                modifier = smNone
+                newvalue = false
+                variablename = L_LoopFailed
+              end
+              action.loop.exit
+              begin
+                id = {C0F28D58-1882-4BE0-864E-410859DA8017}
+              end
+            end
+          end
+          action.ifthen
+          begin
+            expandactionlogtitle = false
+            id = {1D808A93-4663-41ED-9375-B2C6DE56A53D}
+            lhsstoragestring = "%L_LoopFailed%" +
+                               ""
+            operatorsstoragestring = "\=" +
+                                     ""
+            resultinlogtitle = true
+            rhsstoragestring = "true" +
+                               ""
+            shortcircuitevaluation = true
+            termjoiner = jwOr
+            action.raise
+            begin
+              exceptionmessage = "Signtool timestamp failed."
+              id = {47E844ED-718E-48F6-8C7A-43573DA9346A}
+            end
+          end
+        end
+      end
+    end
+  end
+  variable
+  begin
+    defaultvalue = http://timestamp.comodoca.com/authenticode,http://timestamp.verisign.com/scripts/timstamp.dll,http://tsa.starfieldtech.com,http://www.trustcenter.de/codesigning/timestamp
+    name = SHA1TimeStampServers
+    variablescope = vtProject
+  end
+  variable
+  begin
+    defaultvalue = http://timestamp.globalsign.com/?signature\=sha2,http://timestamp.entrust.net/TSS/RFC3161sha2TS
+    name = SHA2TimeStampServers
+    variablescope = vtProject
+    variabletype = btString
+  end
+end
