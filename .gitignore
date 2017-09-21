@@ -6,3 +6,5 @@
 
 # FinalBuilder breakpoint files
 *.fbpbrk
+
+/FB8/Output

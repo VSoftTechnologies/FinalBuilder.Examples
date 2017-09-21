@@ -1,0 +1,407 @@
+﻿project
+begin
+  projectid = {BBC3819C-72B8-4EB7-B7A3-51EE0C3DA99A}
+  target
+  begin
+    name = Default
+    targetid = {2E3B1822-69B9-4715-BA02-6B636A81FCAB}
+    rootaction
+    begin
+      action.variables.logvalues
+      begin
+        failifnotdefined = true
+        id = {3A2F3059-C35B-4649-8674-3CF25CDB1F4C}
+        logallvariables = false
+        variablestoragestring = "BUILD" +
+                                "DOCS" +
+                                "HELP" +
+                                "OUTPUT" +
+                                "REPO" +
+                                "SOURCE" +
+                                "TOOLS" +
+                                "WORKSPACE" +
+                                ""
+      end
+      action.propertyset.logvalues
+      begin
+        id = {8C7E9B4A-82C1-4F9E-8C51-51681A6090C1}
+        propertysetname = DotNetVersion
+      end
+      action.try
+      begin
+        id = {C4EA7041-68B3-4AAF-9CC3-17522CA2B6AA}
+        action.target.execute
+        begin
+          actionlistid = {20272483-64B5-4B0D-A84D-47D08F4FDB4A}
+          failifactionlistempty = false
+          id = {7965B63F-2B86-49F8-A94C-8A653596A2DB}
+          resetdependencychain = false
+        end
+        action.target.execute
+        begin
+          actionlistid = {54F5CCAA-6AEE-494F-989C-2A70F00EF337}
+          failifactionlistempty = false
+          id = {3A5EAA20-F345-4603-AAF8-F42CA8A18803}
+          resetdependencychain = false
+        end
+        action.continua.set-buildstatus
+        begin
+          actiontypeid = {4C731FDD-33BB-486E-9A30-27A7A26E3C92}
+          customactionname = "Continua CI - Set Build Status"
+          enabletimeout = false
+          id = {5912D31C-7FC8-4F7A-BDFB-EFB96C4507D1}
+          impersonateusenetcredonly = false
+          impersonateuser = false
+          terminateontimeout = true
+          timeoutlength = 2
+          as.status = Done
+        end
+      end
+      action.finally
+      begin
+        id = {FB1B4B96-3574-4902-A77B-26CB652E00C1}
+        action.log.export
+        begin
+          actionlistid = {2E3B1822-69B9-4715-BA02-6B636A81FCAB}
+          erroractionsonly = false
+          exportformat = efHTML
+          exportfragment = expFull
+          exportfromparenttarget = true
+          exportfromroot = false
+          id = {E66F8220-EF63-4B77-9681-3B787201D037}
+          includeactionendtime = true
+          includeactionruntime = true
+          includeactionstarttime = true
+          includeactiontype = true
+          includeheading = true
+          includeoutput = true
+          includesummary = true
+          noheaderforfragment = false
+          outputfile = %OUTPUT%\\BuildLog.html
+          recursiveactions = true
+        end
+      end
+      action.end
+      begin
+        id = {EDBCE792-F958-41E9-9D1F-0C91C2C6B191}
+      end
+    end
+    target.dependencies
+    begin
+      target.dependency
+      begin
+        enabled = true
+        resetdependencychain = false
+        targetid = {C382D536-DA2A-45DC-8AD6-7508250165C1}
+      end
+    end
+  end
+  target
+  begin
+    name = Init
+    targetid = {C382D536-DA2A-45DC-8AD6-7508250165C1}
+    rootaction
+    begin
+      action.continua.set-buildstatus
+      begin
+        actiontypeid = {4C731FDD-33BB-486E-9A30-27A7A26E3C92}
+        customactionname = "Continua CI - Set Build Status"
+        enabletimeout = false
+        id = {2A924513-73F0-4192-AECB-354E62DB6D0A}
+        impersonateusenetcredonly = false
+        impersonateuser = false
+        terminateontimeout = true
+        timeoutlength = 2
+        as.status = "Initializing Variables"
+      end
+      action.propertyset.define
+      begin
+        id = {9D234454-F866-443B-8E70-B38D66E3725F}
+        propertysetname = DotNetVersion
+        propertyset.dotnet.info
+        begin
+          name = DotNetVersion
+        end
+      end
+      action.path.manipulation
+      begin
+        actiontypeid = {097DBD39-9D4E-416B-A4B0-1FA0ED5FB081}
+        customactionname = "Path Manipulation"
+        description = "Path Manipulation - Expand Repo Relative Path"
+        enabletimeout = false
+        id = {FA23CA97-66D7-460F-A2DB-E513AF09E3C1}
+        impersonateusenetcredonly = false
+        impersonateuser = false
+        terminateontimeout = true
+        timeoutlength = 2
+        as.applytoinput = True
+        as.usinginputvariable = True
+        as.inputvariable = REPO
+        as.includetrailingbackslash = False
+        as.excludetrailingbackslash = False
+        as.extractfilename = False
+        as.extractfilepath = False
+        as.extractfiledrive = False
+        as.extractfileext = False
+        as.removefileext = False
+        as.changefileext = False
+        as.appendsubdirectory = False
+        as.forcetrailingbackslash = False
+        as.expandrelativepath = True
+        as.basepath = %FBPROJECTDIR%
+      end
+      action.continua.iscontinua
+      begin
+        actiontypeid = {68273E7B-F453-4E54-B343-A52916FB7304}
+        customactionname = "Continua CI - Is Running Under Continua"
+        enabletimeout = false
+        id = {D642BBFC-C5DC-4EA1-92FC-BE3C60ACFEBE}
+        impersonateusenetcredonly = false
+        impersonateuser = false
+        terminateontimeout = true
+        timeoutlength = 2
+        action.continua.getversioninfo
+        begin
+          actiontypeid = {8233ED29-D79A-4164-84DA-AFEEA604FCE3}
+          customactionname = "Continua CI - Get Version Info"
+          enabletimeout = false
+          id = {270E0E50-A564-420F-BA1D-618273CA4361}
+          impersonateusenetcredonly = false
+          impersonateuser = false
+          terminateontimeout = true
+          timeoutlength = 2
+          as.propertysetname = DotNetVersion
+        end
+      end
+      action.else
+      begin
+        id = {C47C2605-D7F8-4310-8C0F-0C59DF18D587}
+        action.path.manipulation
+        begin
+          actiontypeid = {097DBD39-9D4E-416B-A4B0-1FA0ED5FB081}
+          customactionname = "Path Manipulation"
+          description = "Path Manipulation - Expand REPO Relative Path"
+          enabletimeout = false
+          id = {C4AFBB0C-B007-433E-8010-7B968C491874}
+          impersonateusenetcredonly = false
+          impersonateuser = false
+          terminateontimeout = true
+          timeoutlength = 2
+          as.applytoinput = True
+          as.usinginputvariable = True
+          as.inputvariable = REPO
+          as.includetrailingbackslash = False
+          as.excludetrailingbackslash = False
+          as.extractfilename = False
+          as.extractfilepath = False
+          as.extractfiledrive = False
+          as.extractfileext = False
+          as.removefileext = False
+          as.changefileext = False
+          as.appendsubdirectory = False
+          as.forcetrailingbackslash = False
+          as.expandrelativepath = True
+          as.basepath = %FBPROJECTDIR%
+        end
+        action.variable.set
+        begin
+          applytoexisting = false
+          doexpandexpression = true
+          forcetype = ftDefault
+          id = {6F6D75FB-98AA-4436-AC1E-D16ED1554F29}
+          modifier = smNone
+          newvalue = %REPO%
+          variablename = WORKSPACE
+        end
+        action.propertyset.setvalues
+        begin
+          id = {C7ECCCD1-266A-4108-A156-23EC316A4257}
+          propertysetname = DotNetVersion
+          setvaluesto = "1" +
+                        "" +
+                        "" +
+                        "" +
+                        "" +
+                        "" +
+                        "" +
+                        "" +
+                        "" +
+                        "0" +
+                        "0" +
+                        "" +
+                        "0" +
+                        "" +
+                        "" +
+                        ""
+          valuestoset = "BuildVersion\=-1" +
+                        "Company\=0" +
+                        "Copyright\=0" +
+                        "Description\=0" +
+                        "FileBuildVersion\=0" +
+                        "FileMajorVersion\=0" +
+                        "FileMinorVersion\=0" +
+                        "FileRevisionVersion\=0" +
+                        "LinkFileVersion\=0" +
+                        "MajorVersion\=-1" +
+                        "MinorVersion\=-1" +
+                        "Product\=0" +
+                        "RevisionVersion\=-1" +
+                        "Title\=0" +
+                        "Trademark\=0" +
+                        ""
+        end
+      end
+      action.propertyset.setvalues
+      begin
+        id = {11D6BC54-486B-4CA2-9FDF-10B291EC910D}
+        propertysetname = DotNetVersion
+        setvaluesto = "" +
+                      "VSoft Technologies Pty Ltd" +
+                      "" +
+                      "Example Product" +
+                      "" +
+                      "" +
+                      "" +
+                      "" +
+                      "1" +
+                      "" +
+                      "" +
+                      "" +
+                      "" +
+                      "" +
+                      "" +
+                      ""
+        valuestoset = "BuildVersion\=0" +
+                      "Company\=-1" +
+                      "Copyright\=0" +
+                      "Description\=-1" +
+                      "FileBuildVersion\=0" +
+                      "FileMajorVersion\=0" +
+                      "FileMinorVersion\=0" +
+                      "FileRevisionVersion\=0" +
+                      "LinkFileVersion\=-1" +
+                      "MajorVersion\=0" +
+                      "MinorVersion\=0" +
+                      "Product\=-1" +
+                      "RevisionVersion\=0" +
+                      "Title\=0" +
+                      "Trademark\=0" +
+                      ""
+      end
+      action.directory.create
+      begin
+        fileordirectory = %OUTPUT%
+        force = true
+        id = {BC6A25CE-C2BC-41F8-B97D-F13DCE21525F}
+      end
+    end
+  end
+  target
+  begin
+    name = Compile
+    targetid = {20272483-64B5-4B0D-A84D-47D08F4FDB4A}
+    rootaction
+    begin
+      action.continua.set-buildstatus
+      begin
+        actiontypeid = {4C731FDD-33BB-486E-9A30-27A7A26E3C92}
+        customactionname = "Continua CI - Set Build Status"
+        enabletimeout = false
+        id = {AF9ECD2B-9175-4320-B90C-88DA0940723E}
+        impersonateusenetcredonly = false
+        impersonateuser = false
+        terminateontimeout = true
+        timeoutlength = 2
+        as.status = "Running Target : Compile"
+      end
+    end
+  end
+  target
+  begin
+    name = Test
+    targetid = {54F5CCAA-6AEE-494F-989C-2A70F00EF337}
+    rootaction
+    begin
+      action.continua.set-buildstatus
+      begin
+        actiontypeid = {4C731FDD-33BB-486E-9A30-27A7A26E3C92}
+        customactionname = "Continua CI - Set Build Status"
+        enabletimeout = false
+        id = {7F739BEE-D980-416F-9DD5-E1AD9EA402B6}
+        impersonateusenetcredonly = false
+        impersonateuser = false
+        terminateontimeout = true
+        timeoutlength = 2
+        as.status = "Running Target : Test"
+      end
+    end
+  end
+  variable
+  begin
+    defaultvalue = %REPO%\\Build
+    groupname = Paths
+    ismacro = true
+    name = BUILD
+    variablescope = vtProject
+    variabletype = btString
+  end
+  variable
+  begin
+    defaultvalue = %REPO%\\Docs
+    groupname = Paths
+    ismacro = true
+    name = DOCS
+    variablescope = vtProject
+    variabletype = btString
+  end
+  variable
+  begin
+    defaultvalue = %REPO%\\Help
+    groupname = Paths
+    ismacro = true
+    name = HELP
+    variablescope = vtProject
+    variabletype = btString
+  end
+  variable
+  begin
+    defaultvalue = %REPO%\\Output
+    groupname = Paths
+    ismacro = true
+    name = OUTPUT
+    variablescope = vtProject
+    variabletype = btString
+  end
+  variable
+  begin
+    defaultvalue = ..
+    groupname = Paths
+    name = REPO
+    variablescope = vtProject
+    variabletype = btString
+  end
+  variable
+  begin
+    defaultvalue = %REPO%\\Src
+    groupname = Paths
+    ismacro = true
+    name = SOURCE
+    variablescope = vtProject
+    variabletype = btString
+  end
+  variable
+  begin
+    defaultvalue = %REPO%\\Tools
+    groupname = Paths
+    ismacro = true
+    name = TOOLS
+    variablescope = vtProject
+  end
+  variable
+  begin
+    defaultvalue = ..\\..
+    groupname = Paths
+    name = WORKSPACE
+    variablescope = vtProject
+  end
+end
