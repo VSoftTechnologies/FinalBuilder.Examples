@@ -13,6 +13,12 @@ begin
         description = "Fill in the parameters in the Run Target Action"
         id = {648146AD-FF21-41A8-8499-E8B3CDA430A0}
       end
+      action.comment
+      begin
+        actiontextcolor = 8421376
+        description = "Don't forget to set the path to signtool.exe in the options."
+        id = {E57FCBCF-36A3-4E79-A234-3BA3F938DB7F}
+      end
       action.target.execute
       begin
         actionlistid = {41DC3E39-26C0-4B08-BEAF-065B30CA83EB}
@@ -169,6 +175,7 @@ begin
                                ""
             as.isrfc3161timestampservice = False
             as.appendsignature = False
+            as.addsignature = False
           end
         end
         action.comment
@@ -207,6 +214,7 @@ begin
                              ""
           as.isrfc3161timestampservice = False
           as.appendsignature = True
+          as.addsignature = False
         end
         action.ifthen
         begin
