@@ -58,16 +58,6 @@ begin
           resetdependencychain = false
         end
       end
-      action.variable.set
-      begin
-        applytoexisting = false
-        doexpandexpression = true
-        forcetype = ftBoolean
-        id = {24E4AB12-6E4C-4430-ABF2-CFE25D69FCE0}
-        modifier = smNone
-        newvalue = true
-        variablename = Done
-      end
     end
   end
   target
@@ -121,8 +111,8 @@ begin
           end
           action.delay
           begin
-            delay = 4000
-            description = "Pretent to compress for 4 seconds - Replace with 7zip or zip"
+            delay = 6000
+            description = "Pretent to compress for 6 seconds - Replace with 7zip or zip"
             id = {46BC78FB-B198-4E54-9BFC-96947047D689}
           end
           action.stack-queue.push
