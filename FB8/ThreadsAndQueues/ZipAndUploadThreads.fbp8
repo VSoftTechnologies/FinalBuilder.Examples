@@ -1,0 +1,322 @@
+﻿project
+begin
+  projectid = {59AD6FA2-93AA-456C-ACE2-C9B11BA8C560}
+  target
+  begin
+    name = Default
+    targetid = {8A41BAD4-A002-4377-8556-A74C6CFEEDE0}
+    rootaction
+    begin
+      action.stack-queue.define
+      begin
+        id = {B9EAD1DC-684B-41C4-AC47-8512ED228C42}
+        listname = FileToCompress
+        list
+        begin
+          listtype = ltQueue
+          name = FileToCompress
+        end
+      end
+      action.stack-queue.push
+      begin
+        addmultipleitems = true
+        expandvars = true
+        id = {0D4A10E4-44F3-4225-981C-C6E9D5D50659}
+        item = "c:\\temp\\file1.txt" +
+               "c:\\temp\\file2.txt"
+        listname = FileToCompress
+      end
+      action.stack-queue.define
+      begin
+        id = {74601A60-47DA-4D5D-8913-C79C1FE3AEA6}
+        listname = FilesToUpload
+        list
+        begin
+          listtype = ltQueue
+          name = FilesToUpload
+        end
+      end
+      action.group.parallel
+      begin
+        disableasync = false
+        id = {816DC272-EF8D-468B-9E05-44B3C4371CA1}
+        limitthreads = false
+        maxthreads = 2
+        threadstartdelayms = 0
+        action.target.execute
+        begin
+          actionlistid = {5C6CE354-9D03-43A2-93EA-4CC57FD041C7}
+          failifactionlistempty = false
+          id = {32252FC6-CAF3-4CF7-A7DA-4F9B3AF4602B}
+          resetdependencychain = false
+        end
+        action.target.execute
+        begin
+          actionlistid = {7B64FE98-EF81-41B9-BBC9-54D0F3FD8F02}
+          failifactionlistempty = false
+          id = {BEF2136F-B6D3-4A07-98B7-D44CEA4494ED}
+          resetdependencychain = false
+        end
+      end
+      action.variable.set
+      begin
+        applytoexisting = false
+        doexpandexpression = true
+        forcetype = ftBoolean
+        id = {24E4AB12-6E4C-4430-ABF2-CFE25D69FCE0}
+        modifier = smNone
+        newvalue = true
+        variablename = Done
+      end
+    end
+  end
+  target
+  begin
+    name = Compress
+    targetid = {5C6CE354-9D03-43A2-93EA-4CC57FD041C7}
+    rootaction
+    begin
+      action.group
+      begin
+        description = DoCompress
+        id = {A9C7D4D8-F085-4BD0-B5F3-FC8C17D9845C}
+        variable
+        begin
+          name = CurrentFile
+          variablescope = vtLocal
+          variabletype = btString
+        end
+        variable
+        begin
+          defaultvalue = False
+          name = ListIsEmpty
+          variablescope = vtLocal
+          variabletype = btBoolean
+        end
+        action.stack-queue.isempty
+        begin
+          failifcondition = lfDontFail
+          id = {28862BFC-8CE0-4491-A1A3-B16F533FA550}
+          listname = FileToCompress
+          savetovariable = ListIsEmpty
+        end
+        action.while
+        begin
+          id = {EE8EFB08-D9C2-4F08-89A9-FA0D29F6C6DF}
+          action.stack-queue.pop
+          begin
+            expandvars = true
+            id = {B2EC617E-F8E6-4EF5-BD21-30B87495509D}
+            listname = FileToCompress
+            savetovariable = CurrentFile
+            waittime = 0
+          end
+          action.variables.logvalues
+          begin
+            failifnotdefined = true
+            id = {3A794BDC-B6BF-430D-8C5B-5324BD3A7A8C}
+            logallvariables = false
+            variablestoragestring = "CurrentFile" +
+                                    ""
+          end
+          action.delay
+          begin
+            delay = 4000
+            description = "Pretent to compress for 4 seconds - Replace with 7zip or zip"
+            id = {46BC78FB-B198-4E54-9BFC-96947047D689}
+          end
+          action.stack-queue.push
+          begin
+            addmultipleitems = true
+            expandvars = true
+            id = {B94A1236-424C-4191-847D-04123B32C6D8}
+            item = %CurrentFile%
+            listname = FilesToUpload
+          end
+          action.stack-queue.isempty
+          begin
+            failifcondition = lfDontFail
+            id = {02299DA9-04FD-4CA6-B40C-5C938D91C8D2}
+            listname = FileToCompress
+            savetovariable = ListIsEmpty
+          end
+          action.script
+          begin
+            name = Condition
+            script >
+            beginscript
+              !FBVariables.ListIsEmpty
+            endscript
+            scriptlanguage = JavaScript
+          end
+        end
+        action.variable.set
+        begin
+          applytoexisting = false
+          doexpandexpression = true
+          forcetype = ftBoolean
+          id = {F9C309E0-A1DD-46D4-A4DD-2FF419D19B13}
+          modifier = smNone
+          newvalue = true
+          variablename = DoneCompressing
+        end
+      end
+    end
+  end
+  target
+  begin
+    name = Upload
+    targetid = {7B64FE98-EF81-41B9-BBC9-54D0F3FD8F02}
+    rootaction
+    begin
+      action.group
+      begin
+        description = DoUpload
+        id = {3AFF9341-894F-4819-BB00-B47F4F059077}
+        variable
+        begin
+          name = CurrentFile
+          variablescope = vtLocal
+          variabletype = btString
+        end
+        variable
+        begin
+          defaultvalue = False
+          name = ListIsEmpty
+          variablescope = vtLocal
+          variabletype = btBoolean
+        end
+        action.group
+        begin
+          description = "Replace with FTP/SFTP/FTPS Connect"
+          id = {710D093D-43DB-424A-ABFD-D2E0195840CF}
+        end
+        action.try
+        begin
+          id = {43AADCA4-62D8-4AE6-8394-FD193AB420DC}
+          action.while
+          begin
+            id = {A03286D4-3973-48DB-A86C-586CBF75E805}
+            action.stack-queue.isempty
+            begin
+              failifcondition = lfDontFail
+              id = {21F264CF-C769-422B-8234-D1649FD4A0D8}
+              listname = FilesToUpload
+              savetovariable = ListIsEmpty
+            end
+            action.ifthen
+            begin
+              actionlogtitle = "If [%ListIsEmpty%] \= [true]"
+              expandactionlogtitle = false
+              id = {4F275405-4A96-4A74-B93A-22F666756A21}
+              lhsstoragestring = "%ListIsEmpty%" +
+                                 ""
+              operatorsstoragestring = "\=" +
+                                       ""
+              resultinlogtitle = true
+              rhsstoragestring = "false" +
+                                 ""
+              shortcircuitevaluation = true
+              termjoiner = jwOr
+              action.stack-queue.pop
+              begin
+                expandvars = true
+                id = {58407ED1-A015-4E66-970E-E7F158BC718E}
+                listname = FilesToUpload
+                savetovariable = CurrentFile
+                waittime = 0
+              end
+              action.variables.logvalues
+              begin
+                failifnotdefined = true
+                id = {1BD109F0-408E-4B48-9613-1D0797664E6D}
+                logallvariables = false
+                variablestoragestring = "CurrentFile" +
+                                        ""
+              end
+              action.delay
+              begin
+                delay = 5000
+                description = "Pretent to upload for 5 seconds - Replace with Upload"
+                id = {E5719EB5-9869-476A-8D1E-7FBE52984AE1}
+              end
+            end
+            action.else
+            begin
+              id = {E983EA77-A7FC-45DD-8615-4E0D1F80040A}
+              action.ifthen
+              begin
+                expandactionlogtitle = false
+                id = {FFB47A00-AFC1-4C01-9F68-6EAAB41577F0}
+                lhsstoragestring = "%DoneCompressing%" +
+                                   ""
+                operatorsstoragestring = "\=" +
+                                         ""
+                resultinlogtitle = true
+                rhsstoragestring = "true" +
+                                   ""
+                shortcircuitevaluation = true
+                termjoiner = jwOr
+                action.variable.set
+                begin
+                  applytoexisting = false
+                  doexpandexpression = true
+                  forcetype = ftBoolean
+                  id = {F2B942F0-3A98-457E-A797-C8502B2A00E5}
+                  modifier = smNone
+                  newvalue = true
+                  variablename = Done
+                end
+              end
+              action.else
+              begin
+                id = {DE27EDC2-1158-4D6E-A74B-6954E78B8758}
+                action.delay
+                begin
+                  delay = 1000
+                  id = {4FB61A32-3F8B-4E7C-A0E2-351D47C39C43}
+                end
+              end
+            end
+            action.script
+            begin
+              name = Condition
+              script >
+              beginscript
+                !FBVariables.Done
+              endscript
+              scriptlanguage = JavaScript
+            end
+          end
+        end
+        action.finally
+        begin
+          id = {085854EF-D3CF-4064-8535-B6491B628B64}
+          action.group
+          begin
+            description = "Replace with Disconnect"
+            id = {89C6D658-1930-4C2B-B8EF-33CE0B6A3075}
+          end
+        end
+        action.end
+        begin
+          id = {1F6E8F0E-F72A-4204-AA61-3F3FA44B47B6}
+        end
+      end
+    end
+  end
+  variable
+  begin
+    defaultvalue = False
+    name = Done
+    variablescope = vtProject
+    variabletype = btBoolean
+  end
+  variable
+  begin
+    defaultvalue = False
+    name = DoneCompressing
+    variablescope = vtProject
+    variabletype = btBoolean
+  end
+end

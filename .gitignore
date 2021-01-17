@@ -1,6 +1,9 @@
 # FinalBuilder log files
 *.fbl8
 
+# FinalBuilder log lock files
+*.fb8lck
+
 # FinalBuilder project info files
 *.fbpinf
 
